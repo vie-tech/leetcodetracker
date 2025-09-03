@@ -5,12 +5,15 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.bson.types.ObjectId;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 
 
 @Data
@@ -20,10 +23,14 @@ import java.util.List;
 @Document(collection = "users")
 public class UserAccount implements UserDetails {
 
+    @Id
     private ObjectId id;
+    @Indexed(unique = true)
     private String username;
+    @Indexed(unique = true)
     private String email;
-    private String userPublicID;
+    @Builder.Default
+    private String userPublicID = UUID.randomUUID().toString();
     private String password;
 
 
@@ -39,7 +46,8 @@ public class UserAccount implements UserDetails {
 
     @Override
     public String getUsername() {
-        return "";
+        return username;
+
     }
 
     @Override
