@@ -6,6 +6,8 @@ import com.leetTracker.leetcodeTracker.dto.RegisterUserRequest;
 import com.leetTracker.leetcodeTracker.model.UserAccount;
 import com.leetTracker.leetcodeTracker.repository.UserAccountRepository;
 import com.leetTracker.leetcodeTracker.utilities.JwtUtil;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -43,13 +45,18 @@ public class UserService {
         // initialize
     }
 
-    public String loginUser(LoginUserRequest request) {
+    public void loginUser(LoginUserRequest request,
+                          HttpServletResponse response) {
 
         Authentication auth =
                 authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.username(), request.password()));
         UserAccount user = (UserAccount) auth.getPrincipal();
-        return jwtUtil.generateToken(user.getUsername(),
+        String token = jwtUtil.generateToken(user.getUsername(),
                 user.getUserPublicID());
+        Cookie cookie = new Cookie("custom_access_cookie", token);
+        response.addCookie(cookie);
+
+
     }
 
     public UserAccount getCurrentUser() {

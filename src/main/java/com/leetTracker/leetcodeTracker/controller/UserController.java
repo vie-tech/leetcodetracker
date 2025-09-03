@@ -4,6 +4,7 @@ package com.leetTracker.leetcodeTracker.controller;
 import com.leetTracker.leetcodeTracker.dto.LoginUserRequest;
 import com.leetTracker.leetcodeTracker.dto.RegisterUserRequest;
 import com.leetTracker.leetcodeTracker.service.UserService;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -28,8 +29,8 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> loginUser(@Valid @RequestBody LoginUserRequest request){
-        String token = userService.loginUser(request);
-        return ResponseEntity.ok(Map.of("success", true, "token", token));
+    public ResponseEntity<?> loginUser(@Valid @RequestBody LoginUserRequest request, HttpServletResponse response){
+       userService.loginUser(request, response);
+        return ResponseEntity.ok(Map.of("success", true, "isAuthenticated", true));
     }
 }

@@ -31,8 +31,8 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                String token = null;
                Cookie[] cookies = request.getCookies();
 
-               if (request.getServletPath().startsWith("/api/auth/user_login") ||
-                       request.getServletPath().startsWith("/api/auth/user_signup")) {
+               if (request.getServletPath().startsWith("/api/user/login") ||
+                       request.getServletPath().startsWith("/api/user/register")) {
                    filterChain.doFilter(request, response);
                    return;
                }
@@ -41,8 +41,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                if (cookies != null) {
                    System.out.println("Entered Cookie check");
                    for (Cookie cookie : cookies) {
-                       if ("java_access_token_cookie".equals(cookie.getName())) {
-
+                       if ("custom_access_cookie".equals(cookie.getName())) {
                            token = cookie.getValue();
                            break; // Stop loop once token is found
                        }
