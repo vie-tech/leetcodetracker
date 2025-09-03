@@ -25,8 +25,10 @@ public class UserAccount implements UserDetails {
 
     @Id
     private ObjectId id;
+
     @Indexed(unique = true)
     private String username;
+
     @Indexed(unique = true)
     private String email;
     @Builder.Default
@@ -41,7 +43,8 @@ public class UserAccount implements UserDetails {
 
     @Override
     public String getPassword() {
-        return "";
+        return password
+                ;
     }
 
     @Override

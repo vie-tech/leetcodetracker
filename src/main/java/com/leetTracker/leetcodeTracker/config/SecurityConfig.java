@@ -28,15 +28,30 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf(AbstractHttpConfigurer::disable)
-                .cors(Customizer.withDefaults())
-                .authorizeHttpRequests(auth -> auth.requestMatchers("/api" +
-                        "/auth/login", "/api/auth/register").permitAll().anyRequest().authenticated());
+        http
+                 .csrf(AbstractHttpConfigurer::disable) // Disable CSRF for
+                 // stateless API
+                 .cors(Customizer.withDefaults())
+                 .authorizeHttpRequests(auth -> auth
+                         .requestMatchers("/api/user/login", "/api/user" +
+                                 "/register", "/api/auth/validate/session",
+                                 "/wss/**")
+                         .permitAll()
+                         .anyRequest()
+                         .authenticated()
+                 )
+                 .exceptionHandling(ex -> ex
+                         .authenticationEntryPoint((request, response,
+                                                    authException) ->
+                                 response.sendError(401, "Unauthorized"))
+                 );
 
-        http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-        http.addFilterBefore(jwtAuthFilter,
-                UsernamePasswordAuthenticationFilter.class);
-        return http.build();
+         http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+         http.addFilterBefore(jwtAuthFilter,
+                 UsernamePasswordAuthenticationFilter.class);
+
+
+         return http.build();
     }
 
     @Bean

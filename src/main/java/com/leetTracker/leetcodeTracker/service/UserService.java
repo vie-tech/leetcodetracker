@@ -32,7 +32,7 @@ public class UserService {
     private final JwtUtil jwtUtil;
     private final CustomUserDetailService customUserDetailService;
 
-    public void registerUserAccount(RegisterUserRequest request) {
+    public void registerUserAccount(RegisterUserRequest request, HttpServletResponse response) {
 
         UserAccount user = UserAccount.builder()
                 .username(request.username())
@@ -41,6 +41,9 @@ public class UserService {
                 .build();
 
         userAccountRepository.save(user);
+        String token   = jwtUtil.generateToken(user.getUsername(), user.getUserPublicID());
+        Cookie cookie = new Cookie("custom_access_cookie", token);
+        response.addCookie(cookie);
         emailService.sendSignupNotificationToUser(); //Add params here and
         // initialize
     }
@@ -55,8 +58,6 @@ public class UserService {
                 user.getUserPublicID());
         Cookie cookie = new Cookie("custom_access_cookie", token);
         response.addCookie(cookie);
-
-
     }
 
     public UserAccount getCurrentUser() {

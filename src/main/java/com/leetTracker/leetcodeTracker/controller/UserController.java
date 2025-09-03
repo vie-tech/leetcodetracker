@@ -23,8 +23,8 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/register")
-    public ResponseEntity<?> registerUser(@Valid @RequestBody RegisterUserRequest request){
-        userService.registerUserAccount(request);
+    public ResponseEntity<?> registerUser(@Valid @RequestBody RegisterUserRequest request, HttpServletResponse response){
+        userService.registerUserAccount(request,response);
         return ResponseEntity.ok(Map.of("success", true));
     }
 
