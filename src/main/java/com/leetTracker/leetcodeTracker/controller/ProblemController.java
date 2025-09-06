@@ -1,6 +1,7 @@
 package com.leetTracker.leetcodeTracker.controller;
 
 
+import com.leetTracker.leetcodeTracker.dto.EditProblemRequest;
 import com.leetTracker.leetcodeTracker.dto.SaveProblemRequest;
 import com.leetTracker.leetcodeTracker.model.Problem;
 import com.leetTracker.leetcodeTracker.service.ProblemService;
@@ -37,9 +38,18 @@ public class ProblemController {
     }
 
     @DeleteMapping("/delete")
-    public ResponseEntity<?> deleteProblem(@Valid @RequestParam String problemId){
-        problemService
-        return ResponseEntity.ok(Map.of("success", true));
+    public ResponseEntity<?> deleteProblem(@RequestParam String problemId) {
+        problemService.deleteSavedProblem(problemId);
+        return ResponseEntity.ok(Map.of("success", true, "message", "Problem " +
+                "Deleted"));
+    }
+
+    @PatchMapping("/edit")
+    public ResponseEntity<?> editProblem(@RequestParam String problemId,
+                                         @RequestBody EditProblemRequest request) {
+        problemService.editSavedProblem(problemId, request);
+        return ResponseEntity.ok(Map.of("success", true, "message", "problem " +
+                "updated"));
     }
 
 }
