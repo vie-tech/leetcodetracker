@@ -6,11 +6,13 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.bson.types.ObjectId;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @Document(collection = "problems")
 @Data
@@ -20,8 +22,12 @@ import java.util.Map;
 public class Problem {
 
     private ObjectId id;
+    @Indexed(unique = true)
     private String problemName;
+    @Builder.Default
+    private String problemPublicId = UUID.randomUUID().toString();
     private List<String> topics;
+    private List<String> notes;
     private String userPublicId;
     private int problemNumber;
     private Map<String, String> solution;

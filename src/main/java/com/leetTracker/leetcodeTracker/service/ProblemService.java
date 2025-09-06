@@ -29,6 +29,7 @@ public class ProblemService {
                 .problemName(request.problemName())
                 .timeComplexity(request.timeComplexity())
                 .topics(request.topics())
+                .notes(request.notes())
                 .userPublicId(user.getUserPublicID())
                 .solution(request.solution())
                 .createdAt(LocalDate.now())
@@ -38,13 +39,25 @@ public class ProblemService {
         problemRepository.save(problem);
     }
 
-    public List<Problem> getAllProblemsForUser(){
+
+    public List<Problem> getAllProblemsForUser() {
         UserAccount user = userService.getCurrentUser();
-        if(user == null){
+        if (user == null) {
             throw new RuntimeException("Could not identify this user");
         }
 
         return problemRepository.findByUserPublicId(user.getUserPublicID());
+
+    }
+
+    public void deleteSavedProblem(String problemPublicId){
+        UserAccount user = userService.getCurrentUser();
+        List<Problem> problems = problemRepository.findByUserPublicId(user.getUserPublicID());
+        boolean problemExists = problems.stream().anyMatch(p -> p.getProblemPublicId().equals(problemPublicId));
+        if(!problemExists){
+            throw new Error("Problem does not exist for this user");
+        }
+
 
     }
 }

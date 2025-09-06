@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface ProblemRepository extends MongoRepository<Problem, ObjectId> {
     List<Problem> findByUserPublicId(String userPublicId);
+    void deleteByProblemPublicId(String problemPublicId);
 }

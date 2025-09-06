@@ -36,4 +36,10 @@ public class ProblemController {
                 problemList));
     }
 
+    @DeleteMapping("/delete")
+    public ResponseEntity<?> deleteProblem(@Valid @RequestParam String problemId){
+        problemService
+        return ResponseEntity.ok(Map.of("success", true));
+    }
+
 }

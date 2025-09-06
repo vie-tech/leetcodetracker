@@ -9,6 +9,7 @@ public record SaveProblemRequest(@NotNull String problemName,
                                  @NotNull int problemNumber,
                                  @NotNull List<String> topics,
                                  @NotNull String timeComplexity,
-                                 @NotNull Map<String, String> solution
+                                 @NotNull Map<String, String> solution,
+                                 @NotNull List<String> notes
 ) {
 }
