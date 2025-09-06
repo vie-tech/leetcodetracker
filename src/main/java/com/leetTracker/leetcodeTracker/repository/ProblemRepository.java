@@ -4,6 +4,8 @@ import com.leetTracker.leetcodeTracker.model.Problem;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
-public interface ProblemRepository extends MongoRepository<Problem, ObjectId> {
+import java.util.List;
 
+public interface ProblemRepository extends MongoRepository<Problem, ObjectId> {
+    List<Problem> findByUserPublicId(String userPublicId);
 }
