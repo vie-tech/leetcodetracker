@@ -7,6 +7,9 @@ public record EditProblemRequest(String problemName,
                                  int problemNumber,
                                  List<String> topics,
                                  String timeComplexity,
+                                 String spaceComplexity,
                                  Map<String, String> solution,
+                                 String status,
+                                 String difficulty,
                                  List<String> notes) {
 }

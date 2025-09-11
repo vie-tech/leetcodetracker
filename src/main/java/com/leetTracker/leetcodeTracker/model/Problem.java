@@ -1,6 +1,8 @@
 package com.leetTracker.leetcodeTracker.model;
 
 
+import com.leetTracker.leetcodeTracker.enums.ProblemDifficulty;
+import com.leetTracker.leetcodeTracker.enums.ProblemStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -31,6 +33,9 @@ public class Problem {
     private String userPublicId;
     private int problemNumber;
     private Map<String, String> solution;
+    private ProblemStatus status;
+    private ProblemDifficulty difficulty;
+    private String spaceComplexity;
     private String timeComplexity;
     private LocalDate createdAt;
     private LocalDate revisitDate;
